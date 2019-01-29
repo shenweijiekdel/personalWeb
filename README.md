@@ -6,3 +6,6 @@
     Web前端采用Node.js + vue进行开发以达到前后端解耦的目的
   ### Web后端
     Web后端采用SpringBoot + Mybatis框架，为前端提供数据接口
+    
+  ###在线Demo地址
+    http://x2353e5229.51mypc.cn
