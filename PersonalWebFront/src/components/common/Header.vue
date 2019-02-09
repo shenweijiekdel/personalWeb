@@ -25,8 +25,8 @@
       <div class="text-wrapper">
         <h1>沈伟杰</h1>
         <h2>JAVA工程师</h2>
-        <div>
-          本人擅长JAVA，能够熟练使用各种框架进行高质量Web项目的开发，熟悉SSM与SpringBoot，了解分布式应用，同时熟悉Javascript，Html，Css，能够使用Vue，BootStrap进行前端开发以及美化，熟悉XSS，CSRF，SQL注入等常见的Web安全漏洞原理并加以避免。熟悉Linux操作系统，了解各个发型版本的特点，能够熟练使用Linux进行服务的搭建与维护，拥有很强的问题解决能力，能够分析出性能瓶颈，并且能够快速上手新事物，自学能力强，喜欢钻研，工作认真负责，乐于助人，并且易于相处。
+        <div class="introduce">
+          本人擅长JAVA，熟悉常用的数据结构，熟悉TCP/UDP，MQTT以及HTTP传输协议，能够熟练使用各种框架进行高质量Web项目的开发，熟悉SSM与SpringBoot，了解分布式应用，同时熟悉Javascript，Html，Css，能够使用Vue，BootStrap进行前端开发以及美化，熟悉XSS，CSRF，SQL注入等常见的Web安全漏洞原理并加以避免。熟悉Linux操作系统，了解各个发型版本的特点，能够熟练使用Linux进行服务的搭建与维护，拥有很强的问题解决能力，能够分析出性能瓶颈，并且能够快速上手新事物，自学能力强，喜欢钻研，工作认真负责，乐于助人，并且易于相处。
 
         </div>
       </div>
@@ -40,8 +40,11 @@
       <!--<div></div>-->
     </div>
     <div class="header-navigation">
-      <router-link tag="专业技能">
-        专业技能
+      <router-link to="/Dashboard">
+        <div class="navigation" > 个人主页</div>
+      </router-link>
+      <router-link to="/TravelPlan">
+        <div class="navigation">旅行日志</div>
       </router-link>
     </div>
    <!-- <el-row type="flex" style="width: 20%;display: inline-block">
@@ -80,6 +83,7 @@
     font-family: '微软雅黑', 'Consolas';
     margin-top: 80px;
     color: white;
+
   }
   >>>a {
     text-decoration: none;
@@ -88,17 +92,19 @@
     text-align: center;
     color: #FFF;
     cursor: pointer;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 18px;
     text-underline-mode: false;
     -moz-transition: 0.5s;
     -ms-transition: 0.5s;
     padding: 10px;
-    border-radius: 20px 20px 20px 20px;
     -o-transition: 0.5s;
     -webkit-transition: 0.5s;
-  width:80px;
+  width:100px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
     transition: 0.5s;
+    display: inline-block;
   }
 
   .navigation:hover {
@@ -132,7 +138,6 @@
   }*/
   .header-navigation {
     background-color:#336ab8;
-    height:70px;
 
 
   }
@@ -144,6 +149,10 @@
     margin-right: 20%;
     line-height: 30px;
     display: block;
+  }
+  .introduce{
+    font-size:15px;
+    font-weight: lighter;
   }
   .text-wrapper h1{
     font-size: 50px ;
@@ -159,14 +168,17 @@
     letter-spacing: 1px;
   }
   .top-btn{
-    padding:10px;
-    color:#b5e4eb;
-    border:solid #b5e4eb 2px;
-    display: inline-block;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    padding:3px;
+    color:#FFFFFF88;
     border-radius: 100%;
-    font-size: 15px;
+    border:solid #FFFFFF88 2px;
+    display: inline-block;
     transition: 0.5s;
     margin-right: 20px;
+
 
   }
   .top-btn:hover {

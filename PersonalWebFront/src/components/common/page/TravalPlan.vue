@@ -1,7 +1,7 @@
 <template>
   <div class="main">
 
-     <div id="map" style="width:100%;height:800px;box-shadow: gray 0 0 5px 5px ">
+     <div id="map" style="height:800px;width:100%">
        <transition name="el-zoom-in-top">
        <el-card class="info-card" body-style="color:gray;font-size:12px;padding:10px;" v-if="infoPanel.visible">
          <i class="el-icon-close info-card-close" @click="handlePanelClose"></i>
@@ -328,8 +328,8 @@
 <style scoped>
   .main {
     text-align: center;
-    display: inline-block;
-    width:60%
+    width:100%;
+    border:solid 1px
   }
 
   .el-col {

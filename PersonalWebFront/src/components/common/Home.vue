@@ -3,10 +3,10 @@
     <!--<el-header>-->
       <v-head></v-head>
     <!--</el-header>-->
-    <!--<div class="main-wrapper">-->
-      <!--<router-view/>-->
+    <div class="main-wrapper">
+      <router-view/>
 
-    <!--</div>-->
+    </div>
   </div>
 </template>
 
@@ -29,9 +29,6 @@
   .el-header {
   }
   .main-wrapper {
-    padding:20px;
-    width:100%;
-    display: inline-block;
     overflow: hidden;
   }
 </style>
