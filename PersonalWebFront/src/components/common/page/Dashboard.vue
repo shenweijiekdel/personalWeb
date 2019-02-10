@@ -1,5 +1,25 @@
 <template>
   <div class="main">
+    <section id="eudcation-section" class="education-section section">
+      <h2 class="section-title">教育背景</h2>
+      <div class="row text-center">
+        <div class="item col-xs-12 ">
+          <div class="item-inner">
+            <h3 class="degree">计算机科学与技术(本科)</h3>
+            <div class="education-body">
+              内蒙古工业大学
+            </div><!--//education-body-->
+            <div class="time">2014.09 - 2018-07</div>
+            <div class="desc">
+              主修程序设计基础，计算机科学引论，网站设计，面向对象程序设计， 数据结构与算法，数据库系统原理，JAVA高级语言程序设计，微型计算机技术，计算机组成与结构，Web程序设计，操作系统，软件工程，嵌入式操作系统，嵌入式设计与开发，单片机技术，网站设计，编译原理，计算机网络，JSP开发技术，Linux操作系统，SQL Server数据库应用等课程 ，主在校期间主要针对嵌入式，JavaWeb，Android开发等方向进行学习，申报创新实验项目并开发出智能家居安防系统，数据采集分析系统等项目，并多次参加比赛。 </div>
+          </div><!--//item-inner-->
+        </div><!--//item-->
+
+
+      </div><!--//row-->
+    </section><!--//section-->
+
+
     <section id="skills-section" class="skills-section section text-center">
       <h2 class="section-title">专业技能</h2>
       <div class="top-skills">
@@ -69,26 +89,26 @@
 
     </section><!--//skills-section-->
           <section id="experiences-section" class="section">
-            <h2 class="section-title">教育背景</h2>
+            <h2 class="section-title">工作经历</h2>
             <div class="timeline">
               <div class="item">
                 <div class="work-place">
-                  <h3 class="place">计算机科学与技术(本科)</h3>
-                  <div class="location"><i class="fa fa-map-marker" aria-hidden="true"></i>呼和浩特</div>
+                  <h3 class="place">北京发那科机电有限公司</h3>
+                  <div class="location"><i class="fa fa-map-marker" aria-hidden="true"></i>北京</div>
                 </div>
                 <div class="job-meta">
-                  <div class="title">内蒙古工业大学</div>
-                  <div class="time">2014.09 - 2018.06</div>
+                  <div class="title">产品开发工程师</div>
+                  <div class="time">2018.07 - 2019.02</div>
                 </div><!--//job-meta-->
                 <div class="job-desc">
-                  <p> 主修程序设计基础，计算机科学引论，网站设计，面向对象程序设计，
-                    数据结构与算法，数据库系统原理，JAVA高级语言程序设计，微型计算机技术，计算机组成与结构，Web程序设计，操作系统，软件工程，嵌入式操作系统，嵌入式设计与开发，单片机技术，网站设计，编译原理，计算机网络，JSP开发技术，Linux操作系统，SQL Server数据库应用等课程
+                  <p> 云平台是一块很重要的业务，可以将全国各地用户的机床数据汇聚到云端进行管理，用户可以远程登陆查看自己各个工厂中机床的工作状态，以及时发现问题采取措施，远控设备进行故障清除，产量报表等，我主要承担这块业务的PAAS层开发工作  </p>
+                    <h4>项目</h4>
+                  <div class="cut-line"></div>
+                    <h4>
+                      基于分布式架构的数控机床数据监控分析PAAS平台</h4>
+                  <p>
+                    本项目主要针对机床厂，能够快速接入并管理注册用户及公司的所有机床设备，用户只要提供要采集的数据模型即可快速接入设备，按照工厂以及用户对设备和进行分配，实时查看设备的运行状态，地理位置，报警信息以及产量统计，服务器采用3+1负载均衡，主要通过中间件App基于MQTT协议实现数据的接收存储，设备上下线监控统计，dtu位置请求，业务数据库同步，服务器资源监控以及报表统计流式计算等等，运行于个节点上稳定运行提供服务，Web端采用Node.js + vue和SpringBoot实现前后端完全分离。
                   </p>
-                  <ul>
-                    <li>在校期间担任即刻电脑协会副会长</li>
-                    <li>在校期间担任双节棍协会会长</li>
-                  </ul>
-
                 </div><!--//job-desc-->
               </div><!--//item-->
 
@@ -363,5 +383,34 @@
   .chart-easy-pie {
     positon: relative;
   }
-
+  .education-section .item {
+    margin-bottom: 45px;
+  }
+  .education-section .item-inner {
+    padding: 0 30px;
+  }
+  .education-section .degree {
+    font-size: 18px;
+    color: #00BCD4;
+    margin-top: 0;
+    margin-bottom: 0px;
+  }
+  .education-section .education-body {
+    font-weight: 500;
+    margin-bottom: 0px;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  .education-section .time {
+    color: #8a8a8a;
+    margin-bottom: 15px;
+  }
+  .education-section .desc {
+    color: #666;
+  }
+  .cut-line{
+    height:1px;
+    background: #2aabd2;
+    margin-bottom:10px;
+  }
 </style>

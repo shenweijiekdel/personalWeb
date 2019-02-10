@@ -6,6 +6,7 @@ public class StatusCode {
     public static final int SERVICE_LOGIC_ERROR = 1001;
     public static final int OTHER_ERROR = 1002;
     public static final int NULL_PARAM = 1003;
+    public static final int TIME_ERROR = 1004;
 
     private StatusCode(){}
 }

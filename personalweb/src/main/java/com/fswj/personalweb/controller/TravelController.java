@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/travel/")
+@RequestMapping("/travel/")
 public class TravelController {
     @Autowired
     private TravelService travelService;
@@ -55,6 +56,61 @@ public class TravelController {
             response.setMsg(e.getMessage() + ",状态码" + response.getCode());
 
         }catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            response.setCode(StatusCode.DATABASE_OPRT_ERROR);
+            response.setMsg("数据库操作异常,状态码" + response.getCode());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            response.setCode(StatusCode.OTHER_ERROR);
+            response.setMsg("其他异常,状态码" + response.getCode());
+        }
+        return response;
+    }
+    @RequestMapping("planCancel")
+    public Response planCancel(@RequestBody TravelLog travelLog){
+        Response response = new Response<>();
+        System.out.println(travelLog);
+        if (travelLog == null){
+            response.setCode(StatusCode.NULL_PARAM);
+            response.setMsg("非法参数");
+            return response;
+        }
+        try {
+            travelService.planCancel(travelLog);
+            response.setCode(StatusCode.SUCCESS);
+            response.setMsg("操作成功");
+        } catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            response.setCode(StatusCode.DATABASE_OPRT_ERROR);
+            response.setMsg("数据库操作异常,状态码" + response.getCode());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            response.setCode(StatusCode.OTHER_ERROR);
+            response.setMsg("其他异常,状态码" + response.getCode());
+        }
+        return response;
+    }
+    @RequestMapping("signGone")
+    public Response signGone(@RequestBody TravelLog travelLog){
+        Response response = new Response<>();
+        System.out.println(travelLog);
+        if (travelLog == null){
+            response.setCode(StatusCode.NULL_PARAM);
+            response.setMsg("非法参数");
+            return response;
+        }
+        if (travelLog.getTime().getTime() > new Date().getTime()){
+            response.setCode(StatusCode.TIME_ERROR);
+            response.setMsg("不能标记未来");
+            return response;
+        }
+        try {
+            travelService.signGone(travelLog);
+            response.setCode(StatusCode.SUCCESS);
+            response.setMsg("操作成功");
+        } catch (DataIntegrityViolationException e){
             e.printStackTrace();
             response.setCode(StatusCode.DATABASE_OPRT_ERROR);
             response.setMsg("数据库操作异常,状态码" + response.getCode());

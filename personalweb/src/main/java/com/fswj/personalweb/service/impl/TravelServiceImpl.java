@@ -40,4 +40,14 @@ public class TravelServiceImpl implements TravelService{
         return travelLogMapper.setPlan(travelLog);
     }
 
+    @Override
+    public int planCancel(TravelLog travelLog) {
+        return travelLogMapper.planCancel(travelLog);
+    }
+
+    @Override
+    public int signGone(TravelLog travelLog) {
+        return travelLogMapper.signGone(travelLog);
+    }
+
 }

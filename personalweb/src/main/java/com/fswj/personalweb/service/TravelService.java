@@ -12,4 +12,9 @@ public interface TravelService {
     TravelLog isProvinceExists(String province)throws Exception;
 
     int makePlan(TravelLog travelLog) throws InvalidValueException, DataAlreadyExistsException,Exception;
+
+
+    int planCancel(TravelLog travelLog);
+
+    int signGone(TravelLog travelLog);
 }
