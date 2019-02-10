@@ -15,8 +15,8 @@ public interface TravelLogMapper {
     @Select("select * from t_travel_log where province=#{province}")
     TravelLog findTravelLogByProvince(@Param("province") String  province);
 
-    @Delete("delete from t_travel_log where province=#{travelLog.province}")
+    @Update("update t_travel_log  set is_gone=true where province=#{travelLog.province} ")
     int signGone(@Param("travelLog") TravelLog travelLog);
-    @Update("update t_travel_log where set is_gone=true where province=#{travelLog.province} ")
+    @Delete("delete from t_travel_log where province=#{travelLog.province}")
     int planCancel(@Param("travelLog") TravelLog travelLog);
 }
