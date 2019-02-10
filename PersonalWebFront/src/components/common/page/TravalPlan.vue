@@ -1,9 +1,9 @@
 <template>
   <div class="main">
 
-     <div id="map" style="height:800px;width:100%">
+     <div id="map" style="height:800px;width:100%" v-loading="isMapLoading">
        <transition name="el-zoom-in-top">
-       <el-card class="info-card" body-style="color:gray;font-size:12px;padding:10px;" v-if="infoPanel.visible">
+       <el-card class="info-card" body-style="color:gray;font-size:15px;padding:10px;" v-if="infoPanel.visible">
          <i class="el-icon-close info-card-close" @click="handlePanelClose"></i>
            <el-row  type="flex">
              <el-col :span="5" >
@@ -32,36 +32,43 @@
             {{remark}}
           </el-col>
         </el-row>
-         </div>
+           <div v-if="!isGone">
+             <div class="el-footer" style="float: right">
+              <el-button type="primary" size="small" @click="signGone" :loading="isSignGoneLoading">标记去过</el-button>
+              <el-button type="danger" size="small" @click="planCancel" :loading="isPlanCancelLoading">取消计划</el-button>
+
+             </div>
+
+           </div>
+     </div>
          <div v-else >
            <el-row>
              <el-col>
                <div>您还没有旅游过此地，做个计划？</div>
              </el-col>
-             <el-col style="text-align: center">
-               <div><el-button type="primary" size="mini" @click="makePlan">{{doPlainLabel}}</el-button></div>
-             </el-col>
+
+               <div style="float: right;"><el-button type="primary" size="small" @click="makePlan">{{doPlainLabel}}</el-button></div>
            </el-row>
            <transition name="el-zoom-in-top">
 
-          <div v-if="doPlaining" style="text-align: left;">
+          <div v-if="doPlaining" style="text-align: right;">
 
-            <el-form :model="form">
+            <el-form :model="form" :rules="rules" ref="form">
 
-              <el-form-item >
+              <el-form-item prop="time">
                 <el-date-picker
                   v-model="form.time"
                   format="yyyy-MM-dd"
                   value-format="timestamp"
                   type="date"
-                  placeholder="选择日期" size="mini" style="width:180px">
+                  placeholder="请选择日期" size="small" style="width:100%">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item >
+              <el-form-item  prop="remark">
                 <el-input
                   type="textarea"
                   :rows="2"
-                  placeholder="备注"
+                  placeholder="请填写旅行备注信息"
                   v-model="form.remark">
                 </el-input >
               </el-form-item>
@@ -83,18 +90,27 @@
 <script>
   import {
     getAllTravelLogs,
-    makePlan
+    makePlan,
+    planCancel,
+    signGone
   } from '../../../api/api'
 
   export default {
     data () {
       return {
+        rules:{
+         time:[ { required: true, message: '时间不能为空', trigger: 'blur' },],
+          remark:[ { required: true, message: '备注不能为空', trigger: 'blur' },]
+        },
+        isSignGoneLoading:false,
+        isPlanCancelLoading:false,
         doPlaining:false,
         form: {
           province:'',
           remark:'',
           time: '',
         },
+        isMapLoading:false,
         dialogFormVisible:false,
         data:[],
         zoom: 4,
@@ -105,8 +121,6 @@
 
         infoPanel: {
           province:'',
-          time:'',
-          remark:'',
           visible: false,
           dataRef:undefined
         },
@@ -114,6 +128,7 @@
 
     },
     mounted() {
+      this.isMapLoading = true;
       this.initAMap();
       // this.getData()
     },
@@ -129,6 +144,9 @@
       },
       doPlainLabel(){
         return this.doPlaining?'取消':'做计划';
+      },
+      isGone(){
+        return this.infoPanel.dataRef?this.infoPanel.dataRef.gone:false;
       }
     },
 
@@ -179,30 +197,105 @@
 
 
       },
+      signGone(){
+      this.isSignGoneLoading = true;
+        if (new Date(this.infoPanel.dataRef.time) > new Date()){
+          this.$notify({
+            message:'不能标记未来的计划',
+            type:'error'
+          })
+          this.isSignGoneLoading = false;
+          return ;
+        }
+        let _this = this;
+
+        signGone({province:this.infoPanel.dataRef.province,time:this.infoPanel.dataRef.time}).then(res =>{
+          _this.isSignGoneLoading = false;
+          let {code,msg} = res;
+          let type ;
+
+          if (code != 200)
+            type = 'error';
+          else {
+            type = 'success';
+
+          }
+          this.$notify({
+            message:msg,
+            type:type
+          }).catch(err => {
+            _this.isSignGoneLoading = false;
+            console.log(err)
+            this.$notify({
+              message: '服务器请求异常',
+              type: 'error'
+            })
+          })
+        this.getData();
+
+        })
+      },
+      planCancel(){
+        let _this = this;
+        this.isPlanCancelLoading = true;
+        planCancel({province:this.infoPanel.dataRef.province}).then(res => {
+          _this.isPlanCancelLoading = false;
+          let {code, msg} = res;
+          let type;
+
+          if (code != 200)
+            type = 'error';
+          else {
+            type = 'success';
+
+          }
+          this.$notify({
+            message: msg,
+            type: type
+          })
+          this.getData();
+        }).catch(err => {
+          _this.isPlanCancelLoading = false;
+          console.log(err)
+          this.$notify({
+            message: '服务器请求异常',
+            type: 'error'
+          })
+        })
+          },
+
       async getData(){
+        let _this = this;
       await  getAllTravelLogs().then(res =>{
+        _this.isMapLoading = false;
           let {code,msg,data} = res
           let type ;
 
           if (code != 200)
-            type = 'error'
+            type = 'error';
           else {
-            type = 'success'
+            type = 'success';
+            this.dataMap.clear();
             for (let i=0; i<data.length; i++){
-              let key = data[i].province
+              let key = data[i].province;
               this.dataMap.set(key,data[i])
             }
           }
           this.$notify({
             message:msg,
-            type,type
+            type:type
           })
         this.loadProvinceStatus();
           if (this.feature)
         this.focus();
-        console.log(data)
-
+        }).catch(err =>{
+          this.isMapLoading = false;
+          console.log(err)
+        this.$notify({
+          message:'服务器请求异常',
+          type:'error'
         })
+      })
       },
 
 
@@ -275,8 +368,17 @@
         this.map.setZoom(this.zoom)
       },
       blur(){
-        this.infoPanel.visible = false;
-        this.infoPanel.dataRef = undefined;
+        this.form =  {
+          province:'',
+            remark:'',
+            time: '',
+        };
+        this.infoPanel = {
+            province:'',
+            visible: false,
+            dataRef:undefined
+        }
+        this.doPlaining = false;
         // this.map.setZoom(this.zoom)
 
         this.map.setCenter(this.initialCenter)
@@ -300,24 +402,34 @@
 
         this.doPlaining = !this.doPlaining;
       },
-         handleSubmit(){
-        console.log(this.form)
-       makePlan(this.form).then(res =>{
-          let {code,msg} = res;
-          let type;
-         console.log(res)
-          if (code != 200){
-            type = 'error'
-          } else
-            type = 'success'
-          this.$notify({
-            message:msg,
-            type:type
-          })
-           this.getData();
+         handleSubmit(form){
+           this.$refs['form'].validate((valid) => {
+             if (valid) {
+               makePlan(this.form).then(res =>{
+                 let {code,msg} = res;
+                 let type;
+                 console.log(res)
+                 if (code != 200){
+                   type = 'error'
+                 } else
+                   type = 'success'
+                 this.$notify({
+                   message:msg,
+                   type:type
+                 })
+                 this.getData();
 
 
-        })
+               })
+
+             } else {
+               return false;
+             }
+
+
+
+           });
+
 
       },
     }
@@ -360,11 +472,13 @@
 
   .info-card {
     background:rgba(255,255,255,0.8);
-    width:300px;
+    width:500px;
+
     position: absolute;
-    left:10px;
+    left:100px;
     top:100px;
-    z-index: 10000;
+    z-index: 2000;
+    padding:20px;
 
   }
   .cut-line{
