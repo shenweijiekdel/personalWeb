@@ -223,16 +223,16 @@
           this.$notify({
             message:msg,
             type:type
-          }).catch(err => {
-            _this.isSignGoneLoading = false;
-            console.log(err)
-            this.$notify({
-              message: '服务器请求异常',
-              type: 'error'
-            })
           })
         this.getData();
 
+        }).catch(err => {
+          _this.isSignGoneLoading = false;
+          console.log(err)
+          this.$notify({
+            message: '服务器请求异常',
+            type: 'error'
+          })
         })
       },
       planCancel(){
