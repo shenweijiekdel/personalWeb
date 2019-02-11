@@ -8,4 +8,4 @@
     Web后端采用SpringBoot + Mybatis框架，为前端提供数据接口
     
   ### 在线Demo地址
-    （http://148.70.26.13）
+    http://148.70.26.13
